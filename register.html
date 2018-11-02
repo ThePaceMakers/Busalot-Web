@@ -39,6 +39,71 @@
 <script src="js/global-variables.js"></script>
 <script>
  
+ $('#submit').on('click', function (e) {
+
+        //Make sure form does not submit default
+        e.preventDefault();
+
+        var formData = $('#registerForm').serializeArray();
+
+        var formIsValid = true;
+
+        for (var i = 0; i < formData.length; i++) {
+            if (formData[i]['value']== '' || formData[i]['value']== undefined || formData[i]['value']== null) {
+                formIsValid = false;
+            }
+        }
+
+        if (!formIsValid) {
+            alert('Please enter all items on the form!');
+            return false;
+        }
+        else {
+            //do passwords match?
+            if ($('#password').val() != $('#confirm_password').val()) {
+                alert('Passwords do not match');
+
+                //Do not continue if passwords do not match
+                return false;
+            }
+        }
+
+        $.ajax({
+            type: 'POST',
+            url: url + '/saveData.php',
+            data: {
+                registerCompany:true,
+                key:key,
+                data: {
+                    name: $('#name').val(),
+                    email: $('#email').val(),
+                    telephone: $('#telephone').val(),
+                    website: $('#website').val(),
+                    address: $('#address').val(),
+                    username: $('#username').val(),
+                    password: $('#password').val(),
+                }
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+            success: function (result) {
+                result = JSON.parse(result);
+
+                if(result.status == 'exists')
+                {
+                    alert('User or company already exists');
+                }
+                else
+                {
+                    alert('Successfully created user and company');
+                }
+            },
+            error: function (error) {
+                alert('An error has occured');
+            },
+        });
+    });
 </script>
 </body>
 </html>
