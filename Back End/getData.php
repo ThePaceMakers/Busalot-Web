@@ -1,41 +1,51 @@
-//Checks to see if there exists such a route
-function searchRoutes($data){
+<?php
+session_start();
 
+//import important php files
+require_once('key.php'); //Validate accsess key
+require_once('headers.php'); //CORS headers
+require_once('conn.php'); //connection to db
 
-    $sql = "SELECT * FROM Routes
-INNER JOIN Bus on Routes.bus_ID = Bus.bus_ID
-INNER JOIN Company on Bus.company_ID = Company.company_ID
-WHERE Routes.start_location LIKE '%$data[origin]%' AND end_location LIKE '%$data[destination]%';";
-
-
-//    return $sql;
-    $result = $GLOBALS['conn']->query($sql);
-    $data = [];
-    $GLOBALS['conn']->close();
-
-    if(mysqli_num_rows($result) > 0) {
-        // output data of each row
-        while ($row = $result->fetch_assoc()) {
-            $data[] = $row;
-        }
-        return json_encode(['status' => 'found', 'data' => $data]);
-    }
-    else
-        return json_encode(['status'=>'notFound']);
-
-
-
+//Call the relevant method from the ajax call
+if (isset($_POST['getCompanyDetails']))
+{
+    echo getCompanyDetails();
+}
+if (isset($_POST['searchRoutes']))
+{
+    echo searchRoutes($_POST['data']);
+}
+if (isset($_POST['getAllCompanyRoutes']))
+{
+    echo getAllCompanyRoutes();
+}
+if (isset($_POST['getCompanyBusses']))
+{
+    echo getCompanyBusses();
 }
 
-//To display a table for the admin user with all the bus routes including the bus
-function getAllCompanyRoutes()
-{
+//Returns the details of the company where the user is logged in
+function getCompanyDetails(){
+    $sql = "SELECT * FROM Users  INNER JOIN Company ON Users.company_ID = Company.company_ID WHERE user_ID = '$_SESSION[loggedInUserId]';";
+
+    $result = $GLOBALS['conn']->query($sql);
+
+    $GLOBALS['conn']->close();
+
+    $row = $result->fetch_assoc();
+
+    return json_encode(['data'=>$row]);
+}
+
+//Get the busses that the company owns
+function getCompanyBusses(){
+
     $sql = "SELECT company_ID FROM Users WHERE user_ID = $_SESSION[loggedInUserId]";
     $result = $GLOBALS['conn']->query($sql);
     $row = $result->fetch_assoc();
     $companyID = $row['company_ID'];
 
-    $sql = "SELECT * FROM Routes INNER JOIN Bus ON Routes.bus_ID = Bus.bus_ID WHERE company_ID=$companyID;";
+    $sql = "SELECT * FROM Bus WHERE company_ID=$companyID;";
     $result = $GLOBALS['conn']->query($sql);
     $data = [];
 
@@ -49,9 +59,3 @@ function getAllCompanyRoutes()
     }
     else
         return json_encode(['status'=>'notFound']);
-
-}
-
-
-
-?>
