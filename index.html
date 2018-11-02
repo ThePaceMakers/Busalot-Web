@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0">
+  <title>index</title>
+  <link href="http://fonts.googleapis.com/css?family=Raleway:400,500,400,300,100" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="css/standardize.css">
+  <link rel="stylesheet" href="css/index-grid.css">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="body page-index clearfix">
+<p onClick="window.location='index.html';" class="text text-8"><span>Busalot</span></p>
+<!--<button onClick="window.location='company.html';" class="_button _button-7">Company Portal</button>-->
+<!--<button onClick="window.location='contact.html';" class="_button _button-8">Contact</button>-->
+<button onClick="window.location='infoz.html';" class="_button _button-1">About</button>
+<button onClick="window.location='company.html';" class="_button _button-2">Company Portal</button>
+<button onClick="window.location='contact.html';" class="_button _button-3">Contact us</button>
+<!--<button onClick="window.location='infoz.html';" class="_button _button-9">About us</button>-->
+<p class="text text-12">Planning A Trip?</p>
+<input class="_textarea _textarea-1" type="text" placeholder="From:" id="origin" value="">
+<input class="_textarea _textarea-2" type="text" placeholder="To:" id="destination" value="">
+<!--<div class="wrapper wrapper-2"></div>-->
+<!--<div class="wrapper wrapper-3"></div>-->
+<!--<div class="wrapper wrapper-4"><input type="date" value=""></div>-->
+<button class="_button _button-11" onclick="checkIfRouteExists()">Search</button>
+<div class="element element-2"
+     style="background-color: rgba(58,58,58,0.4); height:300px; overflow: auto; color:black; font-size:16px; margin-top:30px; padding-left: 10px;"
+     id="result">
+  <table>
+    <thead class="table-head">
+    <tr>
+      <th>From</th>
+      <th>To</th>
+      <th>Company Name</th>
+      <th>Telephone</th>
+      <th>Rating</th>
+      <th>Capacity</th>
+      <th>Price</th>
+      <th>Trailer Option</th>
+      <th>Disability Access</th>
+    </tr>
+    </thead>
+    <tbody id="tableBody" class="table-body"></tbody>
+  </table>
+</div>
+<!--<button class="_button _button-13">Earliest</button>-->
+<!--<button class="_button _button-15">Latest</button>-->
+<!--<button class="_button _button-17">Cheapest</button>-->
+<!--<button class="_button _button-18">Fastest</button>-->
+<div class="wrapper wrapper-7" style="margin-bottom:150px;">
+  <iframe id="iframe"
+          width="100%"
+          height="100%"
+          frameborder="0"
+          scrolling="no"
+          marginheight="0"
+          marginwidth="0"
+          src=""
+
+  >
+  </iframe>
+</div>
+
+<script src="js/jquery-min.js"></script>
+<script src="js/index.js"></script>
+<script src="js/global-variables.js"></script>
+<script>
+  
+</style>
+</body>
+</html>
