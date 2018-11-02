@@ -24,6 +24,39 @@
   <script src="js/jquery-min.js"></script>
   <script src="js/global-variables.js"></script>
   <script>
+  
+  $('#submit').on('click', function(){
+
+      if($('#username').val() != '' && $('#password').val())
+      {
+        $.ajax({
+          type:'POST',
+          url:url+'/login.php',
+          data:{
+            username:$('#username').val(),
+            password:$('#password').val(),
+            key:key,
+          },
+          success: function(result){
+            if(result=='success')
+            {
+              window.location = 'company_info.php';
+            }
+            else {
+              alert('Username or password incorrect');
+            }
+          },
+          error: function(error){
+            alert('An error has occured');
+          },
+        });
+      }
+      else {
+        alert('Please enter the username and password fields');
+      }
+
+
+    });
     
   </script>
 </body>
