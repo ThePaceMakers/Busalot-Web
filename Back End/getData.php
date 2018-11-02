@@ -59,4 +59,3 @@ function getCompanyBusses(){
     }
     else
         return json_encode(['status'=>'notFound']);
-}
