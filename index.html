@@ -66,7 +66,104 @@
 <script src="js/index.js"></script>
 <script src="js/global-variables.js"></script>
 <script>
-  
+  //AIzaSyC3HZNneU2f0SwDVUswB1tp0HTyFdFXIq4
+
+  function checkIfRouteExists() {
+    $.ajax({
+      type: 'POST',
+      url: url + '/getData.php',
+      data: {
+        searchRoutes: true,
+        key: key,
+        data: {
+          origin: $('#origin').val(),
+          destination: $('#destination').val(),
+        }
+      },
+      xhrFields: {
+        withCredentials: true
+      },
+      success: function (result) {
+        result = JSON.parse(result);
+        $("#tableBody").html('');
+
+        if (result.status == 'found') {
+
+          jQuery.each(result.data, function (i, data) {
+
+            //Convert boolean to Yes / No
+            var trailer = (data.trailer_option == 1) ? 'Yes' : 'No';
+            var disability = (data.disability == 1) ? 'Yes' : 'No';
+
+            $("#tableBody").append("<tr>" +
+              "<td>" + data.start_location + "</td>" +
+              "<td>" + data.end_location + "</td>" +
+              "<td>" + data.name + "</td>" +
+              "<td>" + data.telephone + "</td>" +
+              "<td>" + data.rating + "</td>" +
+              "<td>" + data.size + "</td>" +
+              "<td>R" + data.price + "</td>" +
+              "<td>" + trailer + "</td>" +
+              "<td>" + disability + "</td>" +
+              "<td><button onclick=\"displayMap('"+data.start_location+"', '"+data.end_location+"')\">Preview</button></td>" +
+              "</tr>");
+          });
+
+        }
+        else {
+          $('#result').html("Could not find a route from " + $('#origin').val() + " to " + $('#destination').val());
+        }
+      },
+      error: function (error) {
+        alert('An error has occured');
+      },
+    });
+  }
+
+
+  function displayMap(origin, destination) {
+    var iframe = $('#iframe');
+
+    var url = "https://www.google.com/maps/embed/v1/directions?key=AIzaSyC3HZNneU2f0SwDVUswB1tp0HTyFdFXIq4" +
+      "&origin=" + origin +
+      "&destination=" + destination +
+      "&zoom=9";
+
+    // console.log(url);
+    iframe.attr('src', url);
+
+  }
+</script>
+
+<style>
+  table, td, th {
+    border: 1px solid #ddd;
+    text-align: left;
+    color: white;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  th, td {
+    padding: 15px;
+  }
+
+  .overlay {
+    background-color: rgba(54, 54, 54, 0.5);
+    overflow: auto;
+  }
+
+  .table-head {
+    font-size: 15px;
+  }
+
+  .table-body {
+    font-size: 15px;
+  }
+
 </style>
 </body>
 </html>
